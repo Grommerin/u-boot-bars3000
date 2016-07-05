@@ -174,7 +174,7 @@ Dave Ellis <DGE@sixnetio.com>
 
 	SXNI855T	MPC8xx
 
-Thomas Frieden <ThomasF@hyperion-entertainment.com>
+Thomas Frieden <ThomasF@hyperion-entertainment.com>sbc
 
 	AmigaOneG3SE	MPC7xx
 
@@ -601,6 +601,11 @@ Jason Liu <r64343@freescale.com>
 	mx53loco        i.MX53
 	mx6qarm2	i.MX6Q
 	mx6qsabrelite   i.MX6Q
+
+
+Nikita Divakov <n.divakov@strim-tech.com>
+
+	bars3000	i.MX6Q
 
 Enric Balletbo i Serra <eballetbo@iseebcn.com>
 
