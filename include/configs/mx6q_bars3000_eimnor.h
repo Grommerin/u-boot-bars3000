@@ -50,6 +50,46 @@
 #define CONFIG_MXC_UART
 #define CONFIG_MXC_UART_BASE	       UART1_BASE
 
+// CHECKME добавил сам
+#define CONFIG_CMD_FS_GENERIC
+#define CONFIG_CMD_READ
+#define CONFIG_CMD_SDRAM
+#define CONFIG_CMD_UUID
+#define CONFIG_LZO
+//#define CONFIG_CMD_UBI
+//#define CONFIG_MTD_DEVICE
+//#define CONFIG_MTD_PARTITIONS
+//#define CONFIG_RBTREE
+//#define CONFIG_CMD_UBIFS
+//#define CONFIG_CMD_MTDPARTS
+//#define CONFIG_MTD_UBI_WL_THRESHOLD 4096
+//#define CONFIG_MTD_UBI_BEB_LIMIT 20
+//#define CONFIG_MTD_UBI_FASTMAP
+//#define CONFIG_MTD_UBI_FASTMAP_AUTOCONVERT 0
+//#define MTDIDS_DEFAULT          "nand0=gpmi-nand"
+//#define MTDPARTS_DEFAULT            \
+//    "mtdparts=gpmi-nand:"           \
+//        "3m(bootloader)ro,"     \
+//        "512k(environment),"        \
+//        "512k(redundant-environment),"  \
+//        "4m(kernel),"           \
+//        "128k(fdt),"            \
+//        "8m(ramdisk),"          \
+//        "-(filesystem)"
+#define CONFIG_GZIP
+#define CONFIG_BZIP2
+#define CONFIG_CMD_ZIP
+#define CONFIG_GZIP_COMPRESSED
+//#define CONFIG_SYS_MAX_FLASH_BANKS 2
+//#define CONFIG_SYS_MAX_FLASH_SECT 256
+// до сих пор
+
+/* OCOTP Config */
+#define CONFIG_CMD_FUSE
+#ifdef CONFIG_CMD_FUSE
+#define CONFIG_MXC_OCOTP
+#endif
+
 //#define CONFIG_CMD_SF
 #ifdef CONFIG_CMD_SF
 #define CONFIG_SPI_FLASH
@@ -69,9 +109,10 @@
 
 /* MMC Configs */
 #define CONFIG_FSL_ESDHC
+#define CONFIG_FSL_ESDHC_ADAPTER_IDENT
 #define CONFIG_FSL_USDHC
 #define CONFIG_SYS_FSL_ESDHC_ADDR      0
-#define CONFIG_SYS_FSL_USDHC_NUM       2
+#define CONFIG_SYS_FSL_USDHC_NUM       4
 
 #define CONFIG_MMC
 #define CONFIG_CMD_MMC
@@ -144,7 +185,7 @@
 
 /* allow to overwrite serial and ethaddr */
 #define CONFIG_ENV_OVERWRITE
-#define CONFIG_CONS_INDEX	       0
+#define CONFIG_CONS_INDEX	       1
 #define CONFIG_BAUDRATE			       115200
 
 /* Command definition */
@@ -160,71 +201,69 @@
 #define CONFIG_SYS_TEXT_BASE	       0x17800000
 
 #define CONFIG_EXTRA_ENV_SETTINGS \
-    "script=boot.scr\0" \
-    "uimage=uImage\0" \
-    "console=ttymxc0\0" \
-    "fdt_high=0xffffffff\0" \
-    "initrd_high=0xffffffff\0" \
-    "fdt_file=imx6q-bars3000.dtb\0" \
-    "fdt_addr=0x18000000\0" \
-    "consoleblank=0\0" \
-    "boot_fdt=try\0" \
-    "ip_dyn=yes\0" \
-    "mmcdev=1\0" \
-    "mmcpart=1\0" \
-    "mmcroot=/dev/mmcblk1p2 rootwait rw\0" \
-    "mmcargs=setenv bootargs console=${console},${baudrate} " \
-        "consoleblank=${consoleblank} " \
-        "${dispmode} " \
-        "root=${mmcroot}\0" \
-    "loadbootscript=" \
-        "fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${script};\0" \
-    "bootscript=echo Running bootscript from mmc ...; " \
-        "source\0" \
-    "bootargs=console=ttymxc0,115200 init=/sbin/init rw root=/dev/mmcblk1p2 rootwait rw quiet\0" \
-    "bootcmd=mmc rescan; fatload mmc 1:1 0x10800000 /uImage; fatload mmc 1:1 0x12000000 /imx6q-bars3000.dtb; bootm 0x10800000 - 0x12000000\0" \
-    "loaduimage=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${uimage}\0" \
-    "loadfdt=fatload mmc ${mmcdev}:${mmcpart} ${fdt_addr} ${fdt_file}\0" \
-    "clearenv=mmc dev 1; mmc erase 0x400 0x400; \0" \
-    "mmcboot=echo Booting from mmc ...; " \
-        "run mmcargs; " \
-        "if test ${boot_fdt} = yes || test ${boot_fdt} = try; then " \
-            "if run loadfdt; then " \
-                "bootm ${loadaddr} - ${fdt_addr}; " \
-            "else " \
-                "if test ${boot_fdt} = try; then " \
-                    "bootm; " \
-                "else " \
-                    "echo WARN: Cannot load the DT; " \
-                "fi; " \
-            "fi; " \
-        "else " \
-            "bootm; " \
-        "fi;\0" \
-    "netargs=setenv bootargs console=${console},${baudrate} " \
-        "root=/dev/nfs " \
-    "ip=dhcp nfsroot=${serverip}:${nfsroot},v3,tcp\0" \
-        "netboot=echo Booting from net ...; " \
-        "run netargs; " \
-        "if test ${ip_dyn} = yes; then " \
-            "setenv get_cmd dhcp; " \
-        "else " \
-            "setenv get_cmd tftp; " \
-        "fi; " \
-        "${get_cmd} ${uimage}; " \
-        "if test ${boot_fdt} = yes || test ${boot_fdt} = try; then " \
-            "if ${get_cmd} ${fdt_addr} ${fdt_file}; then " \
-                "bootm ${loadaddr} - ${fdt_addr}; " \
-            "else " \
-                "if test ${boot_fdt} = try; then " \
-                    "bootm; " \
-                "else " \
-                    "echo WARN: Cannot load the DT; " \
-                "fi; " \
-            "fi; " \
-        "else " \
-            "bootm; " \
-        "fi;\0"
+	"script=boot.scr\0" \
+	"uimage=uImage\0" \
+	"console=ttymxc0\0" \
+	"fdt_high=0xffffffff\0" \
+	"initrd_high=0xffffffff\0" \
+	"fdt_file=imx6q-bars3000.dtb\0" \
+	"fdt_addr=0x18000000\0" \
+	"consoleblank=0\0" \
+	"boot_fdt=try\0" \
+	"ip_dyn=yes\0" \
+	"mmcdev=1\0" \
+	"mmcpart=1\0" \
+	"mmcroot=/dev/mmcblk1p2 rootwait rw\0" \
+	"mmcargs=setenv bootargs console=${console},${baudrate} " \
+		"consoleblank=${consoleblank} " \
+		"${dispmode} " \
+		"root=${mmcroot}\0" \
+	"loadbootscript=" \
+		"fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${script};\0" \
+	"bootscript=echo Running bootscript from mmc ...; " \
+		"source\0" \
+	"loaduimage=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${uimage}\0" \
+	"loadfdt=fatload mmc ${mmcdev}:${mmcpart} ${fdt_addr} ${fdt_file}\0" \
+	"clearenv=mmc dev 1; mmc erase 0x400 0x400; \0" \
+	"mmcboot=echo Booting from mmc ...; " \
+		"run mmcargs; " \
+		"if test ${boot_fdt} = yes || test ${boot_fdt} = try; then " \
+			"if run loadfdt; then " \
+				"bootm ${loadaddr} - ${fdt_addr}; " \
+			"else " \
+				"if test ${boot_fdt} = try; then " \
+					"bootm; " \
+				"else " \
+					"echo WARN: Cannot load the DT; " \
+				"fi; " \
+			"fi; " \
+		"else " \
+			"bootm; " \
+		"fi;\0" \
+	"netargs=setenv bootargs console=${console},${baudrate} " \
+		"root=/dev/nfs " \
+	"ip=dhcp nfsroot=${serverip}:${nfsroot},v3,tcp\0" \
+		"netboot=echo Booting from net ...; " \
+		"run netargs; " \
+		"if test ${ip_dyn} = yes; then " \
+			"setenv get_cmd dhcp; " \
+		"else " \
+			"setenv get_cmd tftp; " \
+		"fi; " \
+		"${get_cmd} ${uimage}; " \
+		"if test ${boot_fdt} = yes || test ${boot_fdt} = try; then " \
+			"if ${get_cmd} ${fdt_addr} ${fdt_file}; then " \
+				"bootm ${loadaddr} - ${fdt_addr}; " \
+			"else " \
+				"if test ${boot_fdt} = try; then " \
+					"bootm; " \
+				"else " \
+					"echo WARN: Cannot load the DT; " \
+				"fi; " \
+			"fi; " \
+		"else " \
+			"bootm; " \
+		"fi;\0"
 
 #define CONFIG_BOOTCOMMAND \
 	   "mmc dev ${mmcdev}; if mmc rescan; then " \
@@ -244,12 +283,6 @@
 #define CONFIG_SYS_PROMPT	       "MX6Q_BARS3000 U-Boot > "
 #define CONFIG_AUTO_COMPLETE
 #define CONFIG_SYS_CBSIZE	       1024
-
-/* OCOTP Config */
-#define CONFIG_CMD_FUSE
-#ifdef CONFIG_CMD_FUSE
-#define CONFIG_MXC_OCOTP
-#endif
 
 /* Print Buffer Size */
 #define CONFIG_SYS_PBSIZE (CONFIG_SYS_CBSIZE + sizeof(CONFIG_SYS_PROMPT) + 16)
@@ -284,12 +317,64 @@
 
 #define CONFIG_ENV_SIZE			(8 * 1024)
 
+
+//#define CONFIG_MXC_USB_PORTSC  (PORT_PTS_UTMI | PORT_PTS_PTW)
+//#define CONFIG_EHCI_HCD_INIT_AFTER_RESET
+//
+//#define CONFIG_CMD_FASTBOOT
+//#define CONFIG_USB_FASTBOOT_BUF_ADDR   CONFIG_SYS_LOAD_ADDR
+//#define CONFIG_USB_FASTBOOT_BUF_SIZE   0x10000000
+//#define CONFIG_FASTBOOT_FLASH
+//#define CONFIG_FASTBOOT_FLASH_MMC_DEV  0
+//
+//#define CONFIG_USB_GADGET
+//#define CONFIG_USB_GADGET_VBUS_DRAW    2
+//#define CONFIG_USB_GADGET_DUALSPEED
+//#define CONFIG_G_DNL_MANUFACTURER  "Strim"
+//#define CONFIG_G_DNL_VENDOR_NUM        0x18d1
+//#define CONFIG_G_DNL_PRODUCT_NUM   0x0d02
+//#define CONFIG_CI_UDC
+//#define CONFIG_USBDOWNLOAD_GADGET
+//
+//#define CONFIG_MV_UDC
+//#define CONFIG_USBD_HS
+//#define CONFIG_USB_REG_BASE    OTG_BASE_ADDR
+//#define CONFIG_USB_GADGET_DUALSPEED
+//#define CONFIG_USB_ETHER
+//#define CONFIG_USB_ETH_CDC
+//#define CONFIG_NETCONSOLE
+
+
+#define CONFIG_EFI_PARTITION
+#define CONFIG_PARTITION_UUIDS
+#define CONFIG_CMD_GPT0
+
+// CHECKME добавил
+//#define CONFIG_SYS_BOOT_EIMNOR
+
+#if defined CONFIG_SYS_BOOT_EIMNOR
+#define CONFIG_SYS_USE_EIMNOR
+#define CONFIG_ENV_IS_IN_FLASH
+#else
 #define CONFIG_ENV_IS_IN_MMC
-/* #define CONFIG_ENV_IS_IN_SPI_FLASH */
+#endif
+
+#ifdef CONFIG_SYS_USE_EIMNOR
+#undef CONFIG_SYS_NO_FLASH
+#define CONFIG_SYS_FLASH_BASE           WEIM_ARB_BASE_ADDR
+#define CONFIG_SYS_FLASH_SECT_SIZE  (128 * 1024)
+#define CONFIG_SYS_MAX_FLASH_BANKS 1    /* max number of memory banks */
+#define CONFIG_SYS_MAX_FLASH_SECT 256   /* max number of sectors on one chip */
+#define CONFIG_SYS_FLASH_CFI            /* Flash memory is CFI compliant */
+#define CONFIG_FLASH_CFI_DRIVER         /* Use drivers/cfi_flash.c */
+#define CONFIG_SYS_FLASH_USE_BUFFER_WRITE /* Use buffered writes*/
+#define CONFIG_SYS_FLASH_EMPTY_INFO
+#endif
 
 #if defined(CONFIG_ENV_IS_IN_MMC)
 #define CONFIG_ENV_OFFSET		(512 * 1024)
-#define CONFIG_SYS_MMC_ENV_DEV		0   // FIXME было 1
+//#define CONFIG_SYS_MMC_ENV_DEV		1
+#define CONFIG_SYS_MMC_ENV_DEV      4
 #elif defined(CONFIG_ENV_IS_IN_SPI_FLASH)
 #define CONFIG_ENV_OFFSET		(768 * 1024)
 #define CONFIG_ENV_SECT_SIZE		(8 * 1024)
@@ -298,6 +383,13 @@
 #define CONFIG_ENV_SPI_MODE		CONFIG_SF_DEFAULT_MODE
 #define CONFIG_ENV_SPI_MAX_HZ		CONFIG_SF_DEFAULT_SPEED
 #endif
+
+// CHECKME добавил
+//#define CONFIG_GENERIC_MMC
+//#define CONFIG_SUPPORT_EMMC_BOOT
+//#define CONFIG_SUPPORT_EMMC_RPMB
+
+// до сих пор
 
 #define CONFIG_OF_LIBFDT
 #define CONFIG_CMD_BOOTZ
