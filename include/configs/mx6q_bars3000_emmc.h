@@ -48,7 +48,7 @@
 #define CONFIG_MXC_GPIO
 
 #define CONFIG_MXC_UART
-#define CONFIG_MXC_UART_BASE	       UART1_BASE
+#define CONFIG_MXC_UART_BASE	       UART2_BASE
 
 //#define CONFIG_CMD_SF
 #ifdef CONFIG_CMD_SF
@@ -144,7 +144,7 @@
 
 /* allow to overwrite serial and ethaddr */
 #define CONFIG_ENV_OVERWRITE
-#define CONFIG_CONS_INDEX	       0
+#define CONFIG_CONS_INDEX	       1
 #define CONFIG_BAUDRATE			       115200
 
 /* Command definition */
@@ -162,7 +162,7 @@
 #define CONFIG_EXTRA_ENV_SETTINGS \
     "script=boot.scr\0" \
     "uimage=uImage\0" \
-    "console=ttymxc0\0" \
+    "console=ttymxc1\0" \
     "fdt_high=0xffffffff\0" \
     "initrd_high=0xffffffff\0" \
     "fdt_file=imx6q-bars3000.dtb\0" \
@@ -181,7 +181,7 @@
         "fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${script};\0" \
     "bootscript=echo Running bootscript from mmc ...; " \
         "source\0" \
-    "bootargs=console=ttymxc0,115200 init=/sbin/init rw root=/dev/mmcblk1p2 rootwait rw quiet\0" \
+    "bootargs=console=ttymxc1,115200 init=/sbin/init rw root=/dev/mmcblk1p2 rootwait rw quiet\0" \
     "bootcmd=mmc rescan; fatload mmc 1:1 0x10800000 /uImage; fatload mmc 1:1 0x12000000 /imx6q-bars3000.dtb; bootm 0x10800000 - 0x12000000\0" \
     "loaduimage=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${uimage}\0" \
     "loadfdt=fatload mmc ${mmcdev}:${mmcpart} ${fdt_addr} ${fdt_file}\0" \
