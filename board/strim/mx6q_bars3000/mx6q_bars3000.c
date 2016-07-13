@@ -57,11 +57,11 @@ DECLARE_GLOBAL_DATA_PTR;
 	PAD_CTL_PUS_100K_UP | PAD_CTL_SPEED_MED	  |		\
 	PAD_CTL_DSE_40ohm   | PAD_CTL_HYS)
 
-//#ifdef CONFIG_SYS_USE_EIMNOR
+#ifdef CONFIG_SYS_USE_EIMNOR
 #define WEIM_NOR_PAD_CTRL (PAD_CTL_PKE | PAD_CTL_PUE |      \
     PAD_CTL_PUS_100K_UP | PAD_CTL_SPEED_MED |       \
     PAD_CTL_DSE_40ohm   | PAD_CTL_SRE_FAST)
-//#endif
+#endif
 
 #ifdef CONFIG_MXC_SPI
 #define SPI_PAD_CTRL (PAD_CTL_HYS |				\
@@ -95,20 +95,20 @@ iomux_v3_cfg_t const uart2_pads[] = {
 	MX6_PAD_EIM_D27__UART2_RXD | MUX_PAD_CTRL(UART_PAD_CTRL),
 };
 
-iomux_v3_cfg_t const uart3_pads[] = {
-    MX6_PAD_EIM_D25__UART3_RXD | MUX_PAD_CTRL(UART_PAD_CTRL),
-    MX6_PAD_EIM_D24__UART3_TXD | MUX_PAD_CTRL(UART_PAD_CTRL),
-};
-
-iomux_v3_cfg_t const uart4_pads[] = {
-    MX6_PAD_KEY_COL0__UART4_TXD | MUX_PAD_CTRL(UART_PAD_CTRL),
-    MX6_PAD_KEY_ROW0__UART4_RXD | MUX_PAD_CTRL(UART_PAD_CTRL),
-};
-
-iomux_v3_cfg_t const uart5_pads[] = {
-    MX6_PAD_KEY_COL1__UART5_TXD | MUX_PAD_CTRL(UART_PAD_CTRL),
-    MX6_PAD_KEY_ROW1__UART5_RXD | MUX_PAD_CTRL(UART_PAD_CTRL),
-};
+//iomux_v3_cfg_t const uart3_pads[] = {
+//    MX6_PAD_EIM_D25__UART3_RXD | MUX_PAD_CTRL(UART_PAD_CTRL),
+//    MX6_PAD_EIM_D24__UART3_TXD | MUX_PAD_CTRL(UART_PAD_CTRL),
+//};
+//
+//iomux_v3_cfg_t const uart4_pads[] = {
+//    MX6_PAD_KEY_COL0__UART4_TXD | MUX_PAD_CTRL(UART_PAD_CTRL),
+//    MX6_PAD_KEY_ROW0__UART4_RXD | MUX_PAD_CTRL(UART_PAD_CTRL),
+//};
+//
+//iomux_v3_cfg_t const uart5_pads[] = {
+//    MX6_PAD_KEY_COL1__UART5_TXD | MUX_PAD_CTRL(UART_PAD_CTRL),
+//    MX6_PAD_KEY_ROW1__UART5_RXD | MUX_PAD_CTRL(UART_PAD_CTRL),
+//};
 
 #define PC MUX_PAD_CTRL(I2C_PAD_CTRL)
 
@@ -245,7 +245,7 @@ iomux_v3_cfg_t const enet_pads[] = {
 };
 
 
-//#ifdef CONFIG_SYS_USE_EIMNOR
+#ifdef CONFIG_SYS_USE_EIMNOR
 iomux_v3_cfg_t eimnor_pads[] = {
     MX6_PAD_EIM_D16__WEIM_WEIM_D_16      | MUX_PAD_CTRL(WEIM_NOR_PAD_CTRL),
     MX6_PAD_EIM_D17__WEIM_WEIM_D_17      | MUX_PAD_CTRL(WEIM_NOR_PAD_CTRL),
@@ -312,7 +312,7 @@ static void setup_eimnor(void)
 
     eimnor_cs_setup();
 }
-//#endif
+#endif
 
 
 static void setup_iomux_enet(void)
@@ -333,9 +333,9 @@ static void setup_iomux_uart(void)
 {
 	imx_iomux_v3_setup_multiple_pads(uart1_pads, ARRAY_SIZE(uart1_pads));
 	imx_iomux_v3_setup_multiple_pads(uart2_pads, ARRAY_SIZE(uart2_pads));
-    imx_iomux_v3_setup_multiple_pads(uart3_pads, ARRAY_SIZE(uart3_pads));
-    imx_iomux_v3_setup_multiple_pads(uart4_pads, ARRAY_SIZE(uart4_pads));
-    imx_iomux_v3_setup_multiple_pads(uart5_pads, ARRAY_SIZE(uart5_pads));
+//    imx_iomux_v3_setup_multiple_pads(uart3_pads, ARRAY_SIZE(uart3_pads));
+//    imx_iomux_v3_setup_multiple_pads(uart4_pads, ARRAY_SIZE(uart4_pads));
+//    imx_iomux_v3_setup_multiple_pads(uart5_pads, ARRAY_SIZE(uart5_pads));
 }
 
 #ifdef CONFIG_USB_EHCI_MX6
@@ -863,9 +863,9 @@ int board_init(void)
 //	setup_i2c(1, CONFIG_SYS_I2C_SPEED, 0x7f, &i2c_pad_info1);
 //	setup_i2c(2, CONFIG_SYS_I2C_SPEED, 0x7f, &i2c_pad_info2);
 
-//#ifdef CONFIG_SYS_USE_EIMNOR
+#ifdef CONFIG_SYS_USE_EIMNOR
     setup_eimnor();
-//#endif
+#endif
 
 #ifdef CONFIG_CMD_SATA
 	setup_sata();
