@@ -48,7 +48,7 @@
 #define CONFIG_MXC_GPIO
 
 #define CONFIG_MXC_UART
-#define CONFIG_MXC_UART_BASE	       UART1_BASE
+#define CONFIG_MXC_UART_BASE	       UART5_BASE
 
 //#define CONFIG_CMD_SF
 #ifdef CONFIG_CMD_SF
@@ -144,7 +144,7 @@
 
 /* allow to overwrite serial and ethaddr */
 #define CONFIG_ENV_OVERWRITE
-#define CONFIG_CONS_INDEX	       0
+#define CONFIG_CONS_INDEX	       4
 #define CONFIG_BAUDRATE			       115200
 
 /* Command definition */
@@ -152,7 +152,7 @@
 
 #undef CONFIG_CMD_IMLS
 
-#define CONFIG_BOOTDELAY	       3
+#define CONFIG_BOOTDELAY	       2
 
 #define CONFIG_PREBOOT                 ""
 
@@ -162,7 +162,7 @@
 #define CONFIG_EXTRA_ENV_SETTINGS \
     "script=boot.scr\0" \
     "uimage=uImage\0" \
-    "console=ttymxc0\0" \
+    "console=ttymxc4\0" \
     "fdt_high=0xffffffff\0" \
     "initrd_high=0xffffffff\0" \
     "fdt_file=imx6q-bars3000.dtb\0" \
@@ -181,50 +181,10 @@
         "fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${script};\0" \
     "bootscript=echo Running bootscript from mmc ...; " \
         "source\0" \
-    "bootargs=console=ttymxc0,115200 init=/sbin/init rw root=/dev/mmcblk1p2 rootwait rw quiet\0" \
+    "bootargs=console=ttymxc4,115200 init=/sbin/init rw root=/dev/mmcblk1p2 rootwait rw quiet\0" \
     "bootcmd=mmc rescan; fatload mmc 1:1 0x10800000 /uImage; fatload mmc 1:1 0x12000000 /imx6q-bars3000.dtb; bootm 0x10800000 - 0x12000000\0" \
     "loaduimage=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${uimage}\0" \
     "loadfdt=fatload mmc ${mmcdev}:${mmcpart} ${fdt_addr} ${fdt_file}\0" \
-    "clearenv=mmc dev 1; mmc erase 0x400 0x400; \0" \
-    "mmcboot=echo Booting from mmc ...; " \
-        "run mmcargs; " \
-        "if test ${boot_fdt} = yes || test ${boot_fdt} = try; then " \
-            "if run loadfdt; then " \
-                "bootm ${loadaddr} - ${fdt_addr}; " \
-            "else " \
-                "if test ${boot_fdt} = try; then " \
-                    "bootm; " \
-                "else " \
-                    "echo WARN: Cannot load the DT; " \
-                "fi; " \
-            "fi; " \
-        "else " \
-            "bootm; " \
-        "fi;\0" \
-    "netargs=setenv bootargs console=${console},${baudrate} " \
-        "root=/dev/nfs " \
-    "ip=dhcp nfsroot=${serverip}:${nfsroot},v3,tcp\0" \
-        "netboot=echo Booting from net ...; " \
-        "run netargs; " \
-        "if test ${ip_dyn} = yes; then " \
-            "setenv get_cmd dhcp; " \
-        "else " \
-            "setenv get_cmd tftp; " \
-        "fi; " \
-        "${get_cmd} ${uimage}; " \
-        "if test ${boot_fdt} = yes || test ${boot_fdt} = try; then " \
-            "if ${get_cmd} ${fdt_addr} ${fdt_file}; then " \
-                "bootm ${loadaddr} - ${fdt_addr}; " \
-            "else " \
-                "if test ${boot_fdt} = try; then " \
-                    "bootm; " \
-                "else " \
-                    "echo WARN: Cannot load the DT; " \
-                "fi; " \
-            "fi; " \
-        "else " \
-            "bootm; " \
-        "fi;\0"
 
 #define CONFIG_BOOTCOMMAND \
 	   "mmc dev ${mmcdev}; if mmc rescan; then " \
@@ -241,7 +201,7 @@
 /* Miscellaneous configurable options */
 #define CONFIG_SYS_LONGHELP
 #define CONFIG_SYS_HUSH_PARSER
-#define CONFIG_SYS_PROMPT	       "MX6Q_BARS3000 U-Boot > "
+#define CONFIG_SYS_PROMPT	       "MX6Q_BARS3000 Strim U-Boot> "
 #define CONFIG_AUTO_COMPLETE
 #define CONFIG_SYS_CBSIZE	       1024
 
