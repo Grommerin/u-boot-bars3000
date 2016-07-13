@@ -95,6 +95,21 @@ iomux_v3_cfg_t const uart2_pads[] = {
 	MX6_PAD_EIM_D27__UART2_RXD | MUX_PAD_CTRL(UART_PAD_CTRL),
 };
 
+iomux_v3_cfg_t const uart3_pads[] = {
+    MX6_PAD_EIM_D25__UART3_RXD | MUX_PAD_CTRL(UART_PAD_CTRL),
+    MX6_PAD_EIM_D24__UART3_TXD | MUX_PAD_CTRL(UART_PAD_CTRL),
+};
+
+iomux_v3_cfg_t const uart4_pads[] = {
+    MX6_PAD_KEY_COL0__UART4_TXD | MUX_PAD_CTRL(UART_PAD_CTRL),
+    MX6_PAD_KEY_ROW0__UART4_RXD | MUX_PAD_CTRL(UART_PAD_CTRL),
+};
+
+iomux_v3_cfg_t const uart5_pads[] = {
+    MX6_PAD_KEY_COL1__UART5_TXD | MUX_PAD_CTRL(UART_PAD_CTRL),
+    MX6_PAD_KEY_ROW1__UART5_RXD | MUX_PAD_CTRL(UART_PAD_CTRL),
+};
+
 #define PC MUX_PAD_CTRL(I2C_PAD_CTRL)
 
 /* I2C1, SGTL5000 */
@@ -318,6 +333,9 @@ static void setup_iomux_uart(void)
 {
 	imx_iomux_v3_setup_multiple_pads(uart1_pads, ARRAY_SIZE(uart1_pads));
 	imx_iomux_v3_setup_multiple_pads(uart2_pads, ARRAY_SIZE(uart2_pads));
+    imx_iomux_v3_setup_multiple_pads(uart3_pads, ARRAY_SIZE(uart3_pads));
+    imx_iomux_v3_setup_multiple_pads(uart4_pads, ARRAY_SIZE(uart4_pads));
+    imx_iomux_v3_setup_multiple_pads(uart5_pads, ARRAY_SIZE(uart5_pads));
 }
 
 #ifdef CONFIG_USB_EHCI_MX6
