@@ -48,7 +48,7 @@
 #define CONFIG_MXC_GPIO
 
 #define CONFIG_MXC_UART
-#define CONFIG_MXC_UART_BASE	       UART1_BASE
+#define CONFIG_MXC_UART_BASE	       UART2_BASE
 
 // CHECKME добавил сам
 #define CONFIG_CMD_FS_GENERIC
@@ -185,7 +185,7 @@
 
 /* allow to overwrite serial and ethaddr */
 #define CONFIG_ENV_OVERWRITE
-#define CONFIG_CONS_INDEX	       1
+#define CONFIG_CONS_INDEX	       2
 #define CONFIG_BAUDRATE			       115200
 
 /* Command definition */

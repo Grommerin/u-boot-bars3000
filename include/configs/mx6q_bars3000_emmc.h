@@ -145,7 +145,7 @@
 /* allow to overwrite serial and ethaddr */
 #define CONFIG_ENV_OVERWRITE
 #define CONFIG_CONS_INDEX	       1
-#define CONFIG_BAUDRATE			       115200
+#define CONFIG_BAUDRATE		 115200
 
 /* Command definition */
 #include <config_cmd_default.h>
@@ -249,7 +249,7 @@
 
 #if defined(CONFIG_ENV_IS_IN_MMC)
 #define CONFIG_ENV_OFFSET		(512 * 1024)
-#define CONFIG_SYS_MMC_ENV_DEV		0   // FIXME было 1
+#define CONFIG_SYS_MMC_ENV_DEV		1   // FIXME было 1
 #elif defined(CONFIG_ENV_IS_IN_SPI_FLASH)
 #define CONFIG_ENV_OFFSET		(768 * 1024)
 #define CONFIG_ENV_SECT_SIZE		(8 * 1024)
