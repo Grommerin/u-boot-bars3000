@@ -96,7 +96,7 @@
 #define CONFIG_LBA48
 #define CONFIG_LIBATA
 #endif
-
+//
 //#define CONFIG_FEC_MXC
 #if defined(CONFIG_FEC_MXC)
 #define CONFIG_CMD_PING
@@ -118,7 +118,8 @@
 #endif
 
 /* USB Configs */
-#define CONFIG_CMD_USB
+//#define CONFIG_CMD_USB
+#ifdef CONFIG_CMD_USB
 #define CONFIG_CMD_FAT
 #define CONFIG_USB_EHCI
 #define CONFIG_USB_EHCI_MX6
@@ -129,9 +130,10 @@
 #define CONFIG_MXC_USB_PORT         1
 #define CONFIG_MXC_USB_PORTSC       (PORT_PTS_UTMI | PORT_PTS_PTW)
 #define CONFIG_MXC_USB_FLAGS        0
+#endif
 
 /* Miscellaneous commands */
-#define CONFIG_CMD_BMODE
+//#define CONFIG_CMD_BMODE
 
 /* Framebuffer and LCD */
 //#define CONFIG_VIDEO
@@ -154,68 +156,35 @@
 #define CONFIG_BAUDRATE             115200
 
 /* Command definition */
-#include <config_cmd_default.h>
+//#include <config_cmd_default.h>
 
+#define CONFIG_CMD_BOOTD
 #undef CONFIG_CMD_IMLS
 
-#define CONFIG_BOOTDELAY            2
+#define CONFIG_ZERO_BOOTDELAY_CHECK
+#define CONFIG_BOOTDELAY            -2
 
-#define CONFIG_PREBOOT              ""
+//#define CONFIG_PREBOOT              ""
 
 #define CONFIG_LOADADDR             0x12000000
 #define CONFIG_SYS_TEXT_BASE        0x17800000
 
 #define CONFIG_EXTRA_ENV_SETTINGS \
-    "script=boot.scr\0" \
-    "uimage=uImage\0" \
-    "console=ttymxc1\0" \
-    "fdt_high=0xffffffff\0" \
-    "initrd_high=0xffffffff\0" \
-    "fdt_file=imx6q-bars3000.dtb\0" \
-    "fdt_addr=0x18000000\0" \
-    "consoleblank=0\0" \
-    "boot_fdt=try\0" \
-    "ip_dyn=yes\0" \
-    "mmcdev=1\0" \
-    "mmcpart=1\0" \
-    "mmcroot=/dev/mmcblk1p2 rootwait rw\0" \
-    "mmcargs=setenv bootargs console=${console},${baudrate} " \
-        "consoleblank=${consoleblank} " \
-        "${dispmode} " \
-        "root=${mmcroot}\0" \
-    "loadbootscript=" \
-        "fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${script};\0" \
-    "bootscript=echo Running bootscript from mmc ...; " \
-        "source\0" \
-    "bootargs=console=ttymxc1,115200 init=/sbin/init rw root=/dev/mmcblk1p2 rootwait rw quiet\0" \
-    "bootcmd=mmc rescan; fatload mmc 1:1 0x10800000 /uImage; fatload mmc 1:1 0x12000000 /imx6q-bars3000.dtb; bootm 0x10800000 - 0x12000000\0" \
-    "loaduimage=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${uimage}\0" \
-    "loadfdt=fatload mmc ${mmcdev}:${mmcpart} ${fdt_addr} ${fdt_file}\0" \
-
-#define CONFIG_BOOTCOMMAND \
-	   "mmc dev ${mmcdev}; if mmc rescan; then " \
-		   "if run loadbootscript; then " \
-			   "run bootscript; " \
-		   "else " \
-			   "if run loaduimage; then " \
-				   "run mmcboot; " \
-			   "else run netboot; " \
-			   "fi; " \
-		   "fi; " \
-	   "else run netboot; fi"
+    "bootargs=console=ttymxc1,115200 init=/sbin/init rw root=/dev/mmcblk3p2 rootwait rw quiet\0" \
+    "bootcmd=mmc rescan; ext2load mmc 0:1 0x10800000 /uImage; ext2load mmc 0:1 0x12000000 /imx6q-bars3000.dtb; bootm 0x10800000 - 0x12000000\0" \
 
 /* Miscellaneous configurable options */
-#define CONFIG_SYS_LONGHELP
+//#define CONFIG_SYS_LONGHELP
 #define CONFIG_SYS_HUSH_PARSER
 #define CONFIG_SYS_PROMPT           "MX6Q_BARS3000 Strim U-Boot> "
 #define CONFIG_AUTO_COMPLETE
 #define CONFIG_SYS_CBSIZE           1024
 
-/* OCOTP Config */
-#define CONFIG_CMD_FUSE
-#ifdef CONFIG_CMD_FUSE
-#define CONFIG_MXC_OCOTP
-#endif
+///* OCOTP Config */
+//#define CONFIG_CMD_FUSE
+//#ifdef CONFIG_CMD_FUSE
+//#define CONFIG_MXC_OCOTP
+//#endif
 
 /* Print Buffer Size */
 #define CONFIG_SYS_PBSIZE           (CONFIG_SYS_CBSIZE + sizeof(CONFIG_SYS_PROMPT) + 16)
@@ -246,14 +215,14 @@
 /* FLASH and environment organization */
 #define CONFIG_SYS_NO_FLASH
 
-#define CONFIG_ENV_SIZE             (8 * 1024)
+#define CONFIG_ENV_SIZE             (1 * 512)
 
 #define CONFIG_ENV_IS_IN_MMC
 /* #define CONFIG_ENV_IS_IN_SPI_FLASH */
 
 #if defined(CONFIG_ENV_IS_IN_MMC)
 #define CONFIG_ENV_OFFSET           (512 * 1024)
-#define CONFIG_SYS_MMC_ENV_DEV      1
+#define CONFIG_SYS_MMC_ENV_DEV      0
 #elif defined(CONFIG_ENV_IS_IN_SPI_FLASH)
 #define CONFIG_ENV_OFFSET           (768 * 1024)
 #define CONFIG_ENV_SECT_SIZE        (8 * 1024)
@@ -264,10 +233,10 @@
 #endif
 
 #define CONFIG_OF_LIBFDT
-#define CONFIG_CMD_BOOTZ
+//#define CONFIG_CMD_BOOTZ
 
-#ifndef CONFIG_SYS_DCACHE_OFF
-#define CONFIG_CMD_CACHE
-#endif
+//#ifndef CONFIG_SYS_DCACHE_OFF
+//#define CONFIG_CMD_CACHE
+//#endif
 
 #endif			       /* __CONFIG_H */
