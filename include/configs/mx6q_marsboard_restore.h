@@ -187,7 +187,7 @@
               "sf erase 0x0 0x50000\0" \
     "upd_write=echo Write u-boot to spi flash; " \
               "sf write 0x10000000 0x400 0x4FC00\0" \
-    "upd_cmd=run boot_prepare; " \
+    "upd_cmd=run upd_prepare; " \
             "if run upd_load; then " \
                 "run upd_erase; " \
                 "run upd_write; " \

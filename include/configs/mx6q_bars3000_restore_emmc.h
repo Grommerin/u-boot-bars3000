@@ -189,7 +189,7 @@
     "upd_write=echo Write u-boot to eMMC; " \
               "mmc dev ${mmcdev}; " \
               "mmc write 0x10000000 0x2 0x27e\0" \
-    "upd_cmd=run boot_prepare; " \
+    "upd_cmd=run upd_prepare; " \
             "if run upd_load; then " \
                 "run upd_erase; " \
                 "run upd_write; " \
