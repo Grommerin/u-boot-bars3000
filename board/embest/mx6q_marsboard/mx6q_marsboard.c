@@ -66,9 +66,8 @@ DECLARE_GLOBAL_DATA_PTR;
 #endif
 
 #ifdef CONFIG_MXC_SPI
-#define SPI_PAD_CTRL (PAD_CTL_HYS |             \
-    PAD_CTL_PUS_100K_DOWN | PAD_CTL_SPEED_MED |     \
-    PAD_CTL_DSE_40ohm     | PAD_CTL_SRE_FAST)
+#define SPI_PAD_CTRL (PAD_CTL_HYS | PAD_CTL_SPEED_MED | \
+              PAD_CTL_DSE_40ohm | PAD_CTL_SRE_FAST)
 #endif
 
 #ifdef CONFIG_I2C_MXC
@@ -95,10 +94,10 @@ iomux_v3_cfg_t const uart2_pads[] = {
     MX6_PAD_EIM_D27__UART2_RXD | MUX_PAD_CTRL(UART_PAD_CTRL),
 };
 
-//iomux_v3_cfg_t const uart3_pads[] = {
-//    MX6_PAD_EIM_D25__UART3_RXD | MUX_PAD_CTRL(UART_PAD_CTRL),
-//    MX6_PAD_EIM_D24__UART3_TXD | MUX_PAD_CTRL(UART_PAD_CTRL),
-//};
+iomux_v3_cfg_t const uart3_pads[] = {
+    MX6_PAD_EIM_D25__UART3_RXD | MUX_PAD_CTRL(UART_PAD_CTRL),
+    MX6_PAD_EIM_D24__UART3_TXD | MUX_PAD_CTRL(UART_PAD_CTRL),
+};
 
 iomux_v3_cfg_t const uart4_pads[] = {
     MX6_PAD_KEY_COL0__UART4_TXD | MUX_PAD_CTRL(UART_PAD_CTRL),
@@ -191,17 +190,17 @@ iomux_v3_cfg_t const usdhc4_pads[] = {
 };
 
 iomux_v3_cfg_t const led_pads[] = {
-    MX6_PAD_EIM_D17__GPIO_3_17    | MUX_PAD_CTRL(NO_PAD_CTRL),    /* LED_WiFi */
-    MX6_PAD_EIM_D18__GPIO_3_18    | MUX_PAD_CTRL(NO_PAD_CTRL),    /* LED_Power/Work */
-    MX6_PAD_EIM_D16__GPIO_3_16    | MUX_PAD_CTRL(NO_PAD_CTRL),    /* LED_CAN2 */
-    MX6_PAD_KEY_COL2__GPIO_4_10   | MUX_PAD_CTRL(NO_PAD_CTRL),    /* LED_CAN1 */
-    MX6_PAD_SD3_RST__GPIO_7_8     | MUX_PAD_CTRL(NO_PAD_CTRL),    /* LED_GPS/GPRS */
+    MX6_PAD_KEY_COL1__GPIO_4_8    | MUX_PAD_CTRL(NO_PAD_CTRL),    /* LED_WiFi */
+    MX6_PAD_KEY_ROW1__GPIO_4_9    | MUX_PAD_CTRL(NO_PAD_CTRL),    /* LED_Power/Work */
+    MX6_PAD_CSI0_DAT6__GPIO_5_24  | MUX_PAD_CTRL(NO_PAD_CTRL),    /* LED_CAN1 */
+    MX6_PAD_CSI0_DAT7__GPIO_5_25  | MUX_PAD_CTRL(NO_PAD_CTRL),    /* LED_CAN2 */
+    MX6_PAD_CSI0_DAT8__GPIO_5_26  | MUX_PAD_CTRL(NO_PAD_CTRL),    /* LED_GPS/GPRS */
 };
 
 #if defined(CONFIG_FEC_MXC)
 iomux_v3_cfg_t const enet_pads1[] = {
     MX6_PAD_ENET_MDIO__ENET_MDIO        | MUX_PAD_CTRL(ENET_PAD_CTRL),
-    MX6_PAD_ENET_MDC__ENET_MDC      | MUX_PAD_CTRL(ENET_PAD_CTRL),
+    MX6_PAD_ENET_MDC__ENET_MDC          | MUX_PAD_CTRL(ENET_PAD_CTRL),
     MX6_PAD_RGMII_TXC__ENET_RGMII_TXC   | MUX_PAD_CTRL(ENET_PAD_CTRL),
     MX6_PAD_RGMII_TD0__ENET_RGMII_TD0   | MUX_PAD_CTRL(ENET_PAD_CTRL),
     MX6_PAD_RGMII_TD1__ENET_RGMII_TD1   | MUX_PAD_CTRL(ENET_PAD_CTRL),
@@ -209,7 +208,7 @@ iomux_v3_cfg_t const enet_pads1[] = {
     MX6_PAD_RGMII_TD3__ENET_RGMII_TD3   | MUX_PAD_CTRL(ENET_PAD_CTRL),
     MX6_PAD_RGMII_TX_CTL__RGMII_TX_CTL  | MUX_PAD_CTRL(ENET_PAD_CTRL),
     MX6_PAD_ENET_REF_CLK__ENET_TX_CLK   | MUX_PAD_CTRL(ENET_PAD_CTRL),
-    MX6_PAD_EIM_D31__GPIO_3_31              | MUX_PAD_CTRL(NO_PAD_CTRL),
+    MX6_PAD_EIM_D31__GPIO_3_31          | MUX_PAD_CTRL(NO_PAD_CTRL),
 };
 
 iomux_v3_cfg_t const enet_pads2[] = {
@@ -333,9 +332,9 @@ static void setup_iomux_uart(void)
 {
     imx_iomux_v3_setup_multiple_pads(uart1_pads, ARRAY_SIZE(uart1_pads));
     imx_iomux_v3_setup_multiple_pads(uart2_pads, ARRAY_SIZE(uart2_pads));
-//    imx_iomux_v3_setup_multiple_pads(uart3_pads, ARRAY_SIZE(uart3_pads));
-    imx_iomux_v3_setup_multiple_pads(uart4_pads, ARRAY_SIZE(uart4_pads));
-    imx_iomux_v3_setup_multiple_pads(uart5_pads, ARRAY_SIZE(uart5_pads));
+    imx_iomux_v3_setup_multiple_pads(uart3_pads, ARRAY_SIZE(uart3_pads));
+//    imx_iomux_v3_setup_multiple_pads(uart4_pads, ARRAY_SIZE(uart4_pads));
+//    imx_iomux_v3_setup_multiple_pads(uart5_pads, ARRAY_SIZE(uart5_pads));
 }
 
 #ifdef CONFIG_USB_EHCI_MX6
@@ -353,8 +352,7 @@ int board_ehci_hcd_init(int port)
 #endif
 
 #ifdef CONFIG_FSL_ESDHC
-struct fsl_esdhc_cfg usdhc_cfg[2] = {
-    {USDHC4_BASE_ADDR},
+struct fsl_esdhc_cfg usdhc_cfg[1] = {
     {USDHC2_BASE_ADDR},
 };
 
@@ -370,9 +368,6 @@ int board_mmc_getcd(struct mmc *mmc)
             gpio_direction_input(IMX_GPIO_NR(1, 4));
             ret = !gpio_get_value(USDHC2_CD_GPIO);
             break;
-        case USDHC4_BASE_ADDR:
-            ret = 1; /* eMMC/uSDHC4 is always present */
-            break;
     }
 
     return ret;
@@ -383,20 +378,14 @@ int board_mmc_init(bd_t *bis)
     s32 status = 0;
     u32 index = 0;
 
-    usdhc_cfg[0].sdhc_clk = mxc_get_clock(MXC_ESDHC4_CLK);
-    usdhc_cfg[1].sdhc_clk = mxc_get_clock(MXC_ESDHC2_CLK);
+    usdhc_cfg[0].sdhc_clk = mxc_get_clock(MXC_ESDHC2_CLK);
 
-    usdhc_cfg[0].max_bus_width = 8;
-    usdhc_cfg[1].max_bus_width = 4;
+    usdhc_cfg[0].max_bus_width = 4;
 
 
     for (index = 0; index < CONFIG_SYS_FSL_USDHC_NUM; ++index) {
         switch (index) {
         case 0:
-            // FIXME было наоборот, сначала 2, потом 4
-            imx_iomux_v3_setup_multiple_pads(usdhc4_pads, ARRAY_SIZE(usdhc4_pads));
-            break;
-        case 1:
             imx_iomux_v3_setup_multiple_pads(usdhc2_pads, ARRAY_SIZE(usdhc2_pads));
             break;
        default:
@@ -415,18 +404,17 @@ int board_mmc_init(bd_t *bis)
 
 #ifdef CONFIG_MXC_SPI
 iomux_v3_cfg_t const ecspi1_pads[] = {
-    /* SS1 */
-    MX6_PAD_EIM_D19__GPIO_3_19   | MUX_PAD_CTRL(SPI_PAD_CTRL),
+    /* SS0 */
+    MX6_PAD_EIM_EB2__GPIO_2_30 | MUX_PAD_CTRL(NO_PAD_CTRL),
+    MX6_PAD_EIM_D16__ECSPI1_SCLK | MUX_PAD_CTRL(SPI_PAD_CTRL),
     MX6_PAD_EIM_D17__ECSPI1_MISO | MUX_PAD_CTRL(SPI_PAD_CTRL),
     MX6_PAD_EIM_D18__ECSPI1_MOSI | MUX_PAD_CTRL(SPI_PAD_CTRL),
-    MX6_PAD_EIM_D16__ECSPI1_SCLK | MUX_PAD_CTRL(SPI_PAD_CTRL),
 };
 
 void setup_spi(void)
 {
     gpio_direction_output(CONFIG_SF_DEFAULT_CS, 1);
-    imx_iomux_v3_setup_multiple_pads(ecspi1_pads,
-                     ARRAY_SIZE(ecspi1_pads));
+    imx_iomux_v3_setup_multiple_pads(ecspi1_pads, ARRAY_SIZE(ecspi1_pads));
 }
 #endif
 
@@ -497,33 +485,32 @@ int board_eth_init(bd_t *bis)
 
 static void setup_leds(void)
 {
-    imx_iomux_v3_setup_multiple_pads(led_pads,
-                     ARRAY_SIZE(led_pads));
+    imx_iomux_v3_setup_multiple_pads(led_pads, ARRAY_SIZE(led_pads));
 
     /* LED_WiFi */
-    gpio_direction_output(IMX_GPIO_NR(3, 17), 1);
+    gpio_direction_output(IMX_GPIO_NR(4, 8), 1);
     /* LED_Power/Work */
-    gpio_direction_output(IMX_GPIO_NR(3, 18), 1);
-    /* LED_CAN2 */
-    gpio_direction_output(IMX_GPIO_NR(3, 16), 1);
+    gpio_direction_output(IMX_GPIO_NR(4, 9), 0);
     /* LED_CAN1 */
-    gpio_direction_output(IMX_GPIO_NR(4, 10), 1);
+    gpio_direction_output(IMX_GPIO_NR(5, 24), 1);
+    /* LED_CAN2 */
+    gpio_direction_output(IMX_GPIO_NR(5, 25), 1);
     /* LED_GPS/GPRS# */
-    gpio_direction_output(IMX_GPIO_NR(7, 8), 0);
+    gpio_direction_output(IMX_GPIO_NR(5, 26), 0);
 }
 
 static void reduce_leds(void)
 {
     /* LED_WiFi */
-    gpio_set_value(IMX_GPIO_NR(3, 17), 0);
+    gpio_set_value(IMX_GPIO_NR(4, 8), 0);
     /* LED_Power/Work */
-    gpio_set_value(IMX_GPIO_NR(3, 18), 1);  // оставить включенным
-    /* LED_CAN2 */
-    gpio_set_value(IMX_GPIO_NR(3, 16), 0);
+    gpio_set_value(IMX_GPIO_NR(4, 9), 1);  // оставить включенным
     /* LED_CAN1 */
-    gpio_set_value(IMX_GPIO_NR(4, 10), 0);
+    gpio_set_value(IMX_GPIO_NR(5, 24), 0);
+    /* LED_CAN2 */
+    gpio_set_value(IMX_GPIO_NR(5, 25), 0);
     /* LED_GPS/GPRS# */
-    gpio_set_value(IMX_GPIO_NR(7, 8), 1);
+    gpio_set_value(IMX_GPIO_NR(5, 26), 1);
 }
 
 #ifdef CONFIG_CMD_SATA
@@ -913,9 +900,9 @@ int checkboard(void)
 #ifdef CONFIG_CMD_BMODE
 static const struct boot_mode board_boot_modes[] = {
     /* 4 bit bus width */
-    {"mmc0",    MAKE_CFGVAL(0x40, 0x30, 0x00, 0x00)},
-    {"mmc1",    MAKE_CFGVAL(0x40, 0x38, 0x00, 0x00)},
-    {NULL,      0},
+    {"sd2",  MAKE_CFGVAL(0x40, 0x28, 0x00, 0x00)},
+    {"emmc", MAKE_CFGVAL(0x40, 0x30, 0x00, 0x00)},
+    {NULL,   0},
 };
 #endif
 
