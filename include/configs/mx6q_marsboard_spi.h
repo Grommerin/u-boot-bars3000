@@ -56,9 +56,9 @@
 #define CONFIG_SPI_FLASH_SST
 #define CONFIG_MXC_SPI
 #define CONFIG_SF_DEFAULT_BUS       0
-#define CONFIG_SF_DEFAULT_CS        (0|(IMX_GPIO_NR(3, 19)<<8))
-#define CONFIG_SF_DEFAULT_SPEED     25000000
-#define CONFIG_SF_DEFAULT_MODE      (SPI_MODE_0)
+#define CONFIG_SF_DEFAULT_CS        (0 | (IMX_GPIO_NR(2, 30) << 8))
+#define CONFIG_SF_DEFAULT_SPEED     20000000
+#define CONFIG_SF_DEFAULT_MODE      SPI_MODE_0
 #endif
 
 /* I2C Configs */
@@ -73,7 +73,7 @@
 #define CONFIG_FSL_ESDHC
 #define CONFIG_FSL_USDHC
 #define CONFIG_SYS_FSL_ESDHC_ADDR   0
-#define CONFIG_SYS_FSL_USDHC_NUM    2
+#define CONFIG_SYS_FSL_USDHC_NUM    1
 
 #define CONFIG_MMC
 #define CONFIG_CMD_MMC
@@ -99,10 +99,10 @@
 //
 #define CONFIG_FEC_MXC
 #if defined(CONFIG_FEC_MXC)
-#define CONFIG_CMD_PING
-#define CONFIG_CMD_DHCP
-#define CONFIG_CMD_MII
-#define CONFIG_CMD_NET
+//#define CONFIG_CMD_PING
+//#define CONFIG_CMD_DHCP
+//#define CONFIG_CMD_MII
+//#define CONFIG_CMD_NET
 #define CONFIG_MII
 #define IMX_FEC_BASE                ENET_BASE_ADDR
 #define CONFIG_FEC_XCV_TYPE         RGMII
@@ -111,10 +111,10 @@
 #define CONFIG_PHYLIB
 #define CONFIG_PHY_ATHEROS
 
-#define CONFIG_NETMASK              255.255.255.0
-#define CONFIG_IPADDR               192.168.1.102
-#define CONFIG_SERVERIP             _SERVER_IP_ADDR_
-#define CONFIG_GATEWAYIP            _GATEWAY_IP_ADDR_
+//#define CONFIG_NETMASK              255.255.255.0
+//#define CONFIG_IPADDR               192.168.1.102
+//#define CONFIG_SERVERIP             _SERVER_IP_ADDR_
+//#define CONFIG_GATEWAYIP            _GATEWAY_IP_ADDR_
 #endif
 
 /* USB Configs */
@@ -171,7 +171,35 @@
 
 #define CONFIG_EXTRA_ENV_SETTINGS \
     "bootargs=console=ttymxc1,115200 init=/sbin/init rw root=/dev/mmcblk1p2 rootwait rw quiet\0" \
-    "bootcmd=mmc rescan; fatload mmc 0:1 0x10800000 /uImage; fatload mmc 0:1 0x12000000 /imx6q-marsboard.dtb; bootm 0x10800000 - 0x12000000\0" \
+    "mmcdev=0\0" \
+    "mmcpart=1\0" \
+    "loadcmd=fatload\0" \
+    "loadk=${loadcmd} mmc ${mmcdev}:${mmcpart} 0x10800000 /uImage\0" \
+    "loaddtb=${loadcmd} mmc ${mmcdev}:${mmcpart} 0x12000000 /imx6q-marsboard.dtb\0" \
+    "normalboot=mmc rescan; " \
+               "run loadk; " \
+               "run loaddtb; " \
+               "bootm 0x10800000 - 0x12000000\0" \
+    "upd_load=${loadcmd} mmc ${mmcdev}:${mmcpart} 0x10000000 u-boot.imx\0" \
+    "upd_prepare=sf probe; " \
+                "sf read 0x10000000 0x50000 0x4FC00\0" \
+    "upd_erase=echo Erase spi flash; " \
+              "sf erase 0x0 0x50000\0" \
+    "upd_write=echo Write u-boot to spi flash; " \
+              "sf write 0x10000000 0x400 0x4FC00\0" \
+    "upd_cmd=run boot_prepare; " \
+            "if run upd_load; then " \
+                "run upd_erase; " \
+                "run upd_write; " \
+                "echo U-boot update completed!!!; " \
+            "else " \
+                "echo U-boot update file not found; " \
+            "fi\0" \
+    "upd_check=if run upd_load; then " \
+                  "run upd_cmd; " \
+              "fi; " \
+    "bootcmd=run upd_check; " \
+            "run normalboot\0" \
 
 /* Miscellaneous configurable options */
 //#define CONFIG_SYS_LONGHELP
@@ -215,7 +243,7 @@
 /* FLASH and environment organization */
 #define CONFIG_SYS_NO_FLASH
 
-#define CONFIG_ENV_SIZE             (1 * 512)
+#define CONFIG_ENV_SIZE             (1024 + 256)
 
 //#define CONFIG_ENV_IS_IN_MMC
 #define CONFIG_ENV_IS_IN_SPI_FLASH
