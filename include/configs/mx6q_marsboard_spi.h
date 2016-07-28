@@ -197,7 +197,7 @@
             "fi\0" \
     "upd_check=if run upd_load; then " \
                   "run upd_cmd; " \
-              "fi; " \
+              "fi\0" \
     "bootcmd=run upd_check; " \
             "run normalboot\0" \
 

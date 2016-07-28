@@ -197,7 +197,7 @@
             "fi\0" \
     "upd_check=if run upd_load; then " \
                   "run upd_cmd; " \
-              "fi; " \
+              "fi\0" \
     "bootcmd=run upd_check; " \
             "run normalboot\0" \
     "upd_rest1=echo Restore device is mmc1;" \
@@ -210,15 +210,15 @@
                   "echo No u-boot file on restore device mmc1; " \
                   "setenv mmcdev ${mmcrest}; " \
                   "run upd_rest0;" \
-              "fi;\0" \
+              "fi\0" \
     "upd_rest0=echo Restore device is mmc0;" \
               "if run upd_load; then " \
                   "run upd_cmd; " \
               "else " \
                   "echo No u-boot file on restore device mmc0; " \
                   "run upd_restm;" \
-              "fi;\0" \
-    "upd_memmod=mw 0x177fb00c 0x177fb02c;\0" \
+              "fi\0" \
+    "upd_memmod=mw 0x177fb00c 0x177fb02c\0" \
     "upd_writem=echo Copy u-boot to spi flash; " \
                "sf write 0x177fb000 0x400 0x4FC00\0" \
     "upd_restm=echo Restore u-boot from DRAM; " \
@@ -226,8 +226,7 @@
               "run upd_erase; " \
               "run upd_memmod; " \
               "run upd_writem; " \
-              "echo U-boot restore completed!!!; " \
-              "run env_clear;\0" \
+              "echo U-boot restore completed!!!\0" \
     "env_clear=echo Clear restore environment; " \
               "setenv env_clear; " \
               "setenv bootcmd_2; " \
@@ -236,13 +235,14 @@
               "setenv upd_restm; " \
               "setenv upd_writem; " \
               "setenv upd_memmod; " \
-              "saveenv;\0" \
+              "saveenv\0" \
     "bootcmd_mfg=echo Run u-boot restore; " \
                 "if mmc dev 1; then " \
                     "run upd_rest1; " \
                 "else " \
                     "run upd_rest0; " \
                 "fi; " \
+                "run env_clear; " \
                 "run normalboot\0"
 
 /* Miscellaneous configurable options */
