@@ -172,6 +172,7 @@
 #define CONFIG_EXTRA_ENV_SETTINGS \
     "bootargs=console=ttymxc1,115200 init=/sbin/init rw root=/dev/mmcblk1p2 rootwait rw quiet\0" \
     "mmcdev=0\0" \
+    "mmcupd=1\0" \
     "mmcpart=1\0" \
     "loadcmd=fatload\0" \
     "loadk=${loadcmd} mmc ${mmcdev}:${mmcpart} 0x10800000 /uImage\0" \
@@ -180,7 +181,7 @@
                "run loadk; " \
                "run loaddtb; " \
                "bootm 0x10800000 - 0x12000000\0" \
-    "upd_load=${loadcmd} mmc ${mmcdev}:${mmcpart} 0x10000000 u-boot.imx\0" \
+    "upd_load=${loadcmd} mmc ${mmcupd}:${mmcpart} 0x10000000 u-boot.imx\0" \
     "upd_prepare=sf probe; " \
                 "sf read 0x10000000 0x50000 0x4FC00\0" \
     "upd_erase=echo Erase spi flash; " \
@@ -193,10 +194,15 @@
                 "run upd_write; " \
                 "echo U-boot update completed!!!; " \
             "else " \
-                "echo U-boot update file not found; " \
+                "echo U-boot update file not found on mmc${mmcupd}; " \
             "fi\0" \
     "upd_check=if run upd_load; then " \
                   "run upd_cmd; " \
+              "else " \
+                  "setenv mmcupd 0; " \
+                  "if run upd_load; then " \
+                      "run upd_cmd; " \
+                  "fi; " \
               "fi\0" \
     "bootcmd=run upd_check; " \
             "run normalboot\0" \
