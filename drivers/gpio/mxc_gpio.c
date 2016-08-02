@@ -109,7 +109,7 @@ int gpio_get_value(unsigned gpio)
 {
 	unsigned int port = GPIO_TO_PORT(gpio);
 	struct gpio_regs *regs;
-	u32 val;
+	u32 val, dir;
 
 	if (port >= ARRAY_SIZE(gpio_ports))
 		return -1;
@@ -118,7 +118,14 @@ int gpio_get_value(unsigned gpio)
 
 	regs = (struct gpio_regs *)gpio_ports[port];
 
-	val = (readl(&regs->gpio_psr) >> gpio) & 0x01;
+	dir = (readl(&regs->gpio_dir) >> gpio) & 0x01;
+
+	if(dir == 0) {
+	    val = (readl(&regs->gpio_psr) >> gpio) & 0x01;
+	}
+	else {
+	    val = (readl(&regs->gpio_dr) >> gpio) & 0x01;
+	}
 
 	return val;
 }
